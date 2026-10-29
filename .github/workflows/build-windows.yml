@@ -31,20 +31,25 @@ jobs:
       - uses: actions/setup-go@v6
         with:
           go-version-file: backend/go.mod
-      - name: Build sub2api.exe
+      - name: Build binaries
         working-directory: backend
         env:
           CGO_ENABLED: '0'
-          GOOS: windows
           GOARCH: amd64
         run: |
-          go build -trimpath -tags=embed,timetzdata \
-            -ldflags="-s -w -X main.Commit=${GITHUB_SHA} -X main.Date=$(date -u +%Y-%m-%dT%H:%M:%SZ) -X main.BuildType=release" \
-            -o ../out/sub2api.exe ./cmd/server
+          LDFLAGS="-s -w -X main.Commit=${GITHUB_SHA} -X main.Date=$(date -u +%Y-%m-%dT%H:%M:%SZ) -X main.BuildType=release"
+          GOOS=windows go build -trimpath -tags=embed,timetzdata -ldflags="$LDFLAGS" -o ../out/windows/sub2api.exe ./cmd/server
+          GOOS=linux go build -trimpath -tags=embed,timetzdata -ldflags="$LDFLAGS" -o ../out/linux/sub2api ./cmd/server
 
       - uses: actions/upload-artifact@v7
         with:
           name: sub2api-windows-amd64
-          path: out/sub2api.exe
+          path: out/windows/sub2api.exe
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v7
+        with:
+          name: sub2api-linux-amd64
+          path: out/linux/sub2api
           if-no-files-found: error
           retention-days: 7
