@@ -80,10 +80,11 @@
   }
 
   .btn-primary {
-    @apply bg-gradient-to-r from-primary-500 to-primary-600;
-    @apply text-white shadow-md shadow-primary-500/25;
-    @apply hover:from-primary-600 hover:to-primary-700 hover:shadow-lg hover:shadow-primary-500/30;
+    @apply bg-gradient-to-r from-primary-600 to-primary-700;
+    @apply text-white shadow-md shadow-primary-600/25;
+    @apply hover:from-primary-700 hover:to-primary-800 hover:shadow-lg hover:shadow-primary-600/30;
     @apply dark:shadow-primary-500/20;
+    @apply disabled:opacity-80;
   }
 
   .btn-secondary {

@@ -1,0 +1,50 @@
+name: Build Windows
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - custom-ui
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 9
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          cache: pnpm
+          cache-dependency-path: frontend/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+        working-directory: frontend
+      - run: pnpm run build
+        working-directory: frontend
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version-file: backend/go.mod
+      - name: Build sub2api.exe
+        working-directory: backend
+        env:
+          CGO_ENABLED: '0'
+          GOOS: windows
+          GOARCH: amd64
+        run: |
+          go build -trimpath -tags=embed,timetzdata \
+            -ldflags="-s -w -X main.Commit=${GITHUB_SHA} -X main.Date=$(date -u +%Y-%m-%dT%H:%M:%SZ) -X main.BuildType=release" \
+            -o ../out/sub2api.exe ./cmd/server
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: sub2api-windows-amd64
+          path: out/sub2api.exe
+          if-no-files-found: error
+          retention-days: 7

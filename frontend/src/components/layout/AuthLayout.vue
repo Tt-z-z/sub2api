@@ -38,7 +38,7 @@
           <h1 class="text-gradient mb-2 text-3xl font-bold">
             {{ siteName }}
           </h1>
-          <p class="text-sm text-gray-500 dark:text-dark-400">
+          <p class="text-sm text-gray-600 dark:text-dark-300">
             {{ siteSubtitle }}
           </p>
         </template>
@@ -55,7 +55,7 @@
       </div>
 
       <!-- Copyright -->
-      <div class="mt-8 text-center text-xs text-gray-400 dark:text-dark-500">
+      <div class="mt-8 text-center text-xs text-gray-500 dark:text-dark-400">
         &copy; {{ currentYear }} {{ siteName }}. All rights reserved.
       </div>
     </div>
@@ -83,6 +83,6 @@ onMounted(() => {
 
 <style scoped>
 .text-gradient {
-  @apply bg-gradient-to-r from-primary-600 to-primary-500 bg-clip-text text-transparent;
+  @apply bg-gradient-to-r from-primary-700 to-primary-600 bg-clip-text text-transparent;
 }
 </style>
