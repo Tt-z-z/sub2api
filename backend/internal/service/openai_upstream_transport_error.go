@@ -152,11 +152,20 @@ func (s *OpenAIGatewayService) handleOpenAIUpstreamTransportError(ctx context.Co
 
 	if classifyUpstreamTransportError(err).Persistent {
 		s.tempUnscheduleOpenAITransportError(ctx, account, safeErr)
+		return &UpstreamFailoverError{
+			StatusCode:   http.StatusBadGateway,
+			ResponseBody: openAITransportFailoverBody,
+		}
 	}
 
+	// Transient network blips (HTTP/2 stream resets, dropped proxy connections)
+	// usually succeed on a fresh connection; single-account pools have no other
+	// account to fail over to.
 	return &UpstreamFailoverError{
-		StatusCode:   http.StatusBadGateway,
-		ResponseBody: openAITransportFailoverBody,
+		StatusCode:             http.StatusBadGateway,
+		ResponseBody:           openAITransportFailoverBody,
+		RetryableOnSameAccount: true,
+		RequestScopedTransient: true,
 	}
 }
 

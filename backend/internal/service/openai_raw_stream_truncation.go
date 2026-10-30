@@ -93,9 +93,11 @@ func newOpenAIRawStreamTruncatedFailoverError(
 		headers.Set("x-request-id", id)
 	}
 	return &UpstreamFailoverError{
-		StatusCode:      http.StatusBadGateway,
-		ResponseBody:    openAIRawStreamTruncatedErrorBody(cause),
-		ResponseHeaders: headers,
+		StatusCode:             http.StatusBadGateway,
+		ResponseBody:           openAIRawStreamTruncatedErrorBody(cause),
+		ResponseHeaders:        headers,
+		RetryableOnSameAccount: true,
+		RequestScopedTransient: true,
 	}
 }
 
