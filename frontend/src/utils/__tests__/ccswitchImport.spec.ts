@@ -45,6 +45,7 @@ describe('ccswitchImport utils', () => {
 
     expect(params.get('resource')).toBe('provider')
     expect(params.get('app')).toBe('codex')
+    expect(params.get('apiFormat')).toBe('openai_responses')
     expect(params.get('endpoint')).toBe(endpoint)
     expect(params.get('model')).toBe(OPENAI_CC_SWITCH_CODEX_MODEL)
     expect(atob(params.get('usageScript') || '')).toBe(baseInput.usageScript)
@@ -66,6 +67,7 @@ describe('ccswitchImport utils', () => {
     )
 
     expect(params.get('app')).toBe('grokbuild')
+    expect(params.get('apiFormat')).toBe('openai_responses')
     expect(params.get('endpoint')).toBe('https://api.example.com/v1')
     expect(params.get('model')).toBe(GROK_CC_SWITCH_MODEL)
   })
@@ -83,6 +85,7 @@ describe('ccswitchImport utils', () => {
     )
 
     expect(params.get('app')).toBe(app)
+    expect(params.get('apiFormat')).toBe(platform === 'gemini' ? 'gemini_native' : 'anthropic')
     expect(params.get('endpoint')).toBe(baseInput.baseUrl)
     expect(params.has('model')).toBe(false)
   })

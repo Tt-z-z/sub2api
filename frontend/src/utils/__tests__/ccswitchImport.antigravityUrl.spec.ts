@@ -15,6 +15,7 @@ describe('Antigravity CC Switch endpoint', () => {
       }))
       expect(url.searchParams.get('endpoint')).toBe(endpoint)
       expect(url.searchParams.get('app')).toBe(clientType)
+      expect(url.searchParams.get('apiFormat')).toBe(clientType === 'gemini' ? 'gemini_native' : 'anthropic')
       expect(url.searchParams.get('homepage')).toBe(baseUrl)
       expect(url.searchParams.has('model')).toBe(false)
     }

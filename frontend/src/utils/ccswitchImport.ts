@@ -8,6 +8,7 @@ export type CcSwitchClientType = 'claude' | 'gemini'
 export interface CcSwitchImportConfig {
   app: string
   endpoint: string
+  apiFormat: 'anthropic' | 'openai_responses' | 'gemini_native'
   model?: string
 }
 
@@ -63,31 +64,36 @@ export function resolveCcSwitchImportConfig(
     case 'antigravity':
       return {
         app: clientType === 'gemini' ? 'gemini' : 'claude',
-        endpoint: `${baseUrl.replace(/\/+$/, '')}/antigravity`
+        endpoint: `${baseUrl.replace(/\/+$/, '')}/antigravity`,
+        apiFormat: clientType === 'gemini' ? 'gemini_native' : 'anthropic'
       }
     case 'openai':
       return {
         app: 'codex',
-        // CC Switch's Codex provider appends the OpenAI-compatible path itself.
-        // Passing /v1 here can make the client request /v1/v1/....
+        // CCSwitch's Codex provider uses its Responses adapter. Keep the
+        // endpoint at the gateway root; the app owns the /v1/responses path.
         endpoint: withoutTrailingSlashes(baseUrl),
+        apiFormat: 'openai_responses',
         model: OPENAI_CC_SWITCH_CODEX_MODEL
       }
     case 'gemini':
       return {
         app: 'gemini',
-        endpoint: baseUrl
+        endpoint: baseUrl,
+        apiFormat: 'gemini_native'
       }
     case 'grok':
       return {
         app: 'grokbuild',
         endpoint: withV1Endpoint(baseUrl),
+        apiFormat: 'openai_responses',
         model: GROK_CC_SWITCH_MODEL
       }
     default:
       return {
         app: 'claude',
-        endpoint: baseUrl
+        endpoint: baseUrl,
+        apiFormat: 'anthropic'
       }
   }
 }
@@ -100,6 +106,7 @@ export function buildCcSwitchImportDeeplink(input: CcSwitchImportDeeplinkInput):
     ['name', input.providerName],
     ['homepage', input.baseUrl],
     ['endpoint', config.endpoint],
+    ['apiFormat', config.apiFormat],
     ['apiKey', input.apiKey],
     ['configFormat', 'json'],
     ['usageEnabled', 'true'],
