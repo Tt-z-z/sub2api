@@ -108,6 +108,15 @@
               >
                 {{ t('modelPlaza.table.reasoningMultiplierBadge', { effort, multiplier }) }}
               </span>
+              <button
+                v-if="!period && getModelParamDoc(m.name)"
+                type="button"
+                class="ml-auto whitespace-nowrap rounded-md border border-gray-200 px-1.5 py-0.5 text-[11px] font-medium text-gray-600 transition-colors hover:border-primary-300 hover:text-primary-600 dark:border-dark-600 dark:text-dark-300 dark:hover:text-primary-400"
+                :data-param-details="m.name"
+                @click="detailsModel = m.name"
+              >
+                {{ t('modelPlaza.params.button') }}
+              </button>
             </div>
           </td>
 
@@ -302,11 +311,12 @@
         </tr>
       </tbody>
     </table>
+    <ModelParamDetailsDialog :model="detailsModel" @close="detailsModel = null" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { formatScaled, resolveIntervalPrices } from '@/utils/pricing'
 import { platformAccentColor, platformBadgeLightClass, platformLabel } from '@/utils/platformColors'
@@ -319,6 +329,10 @@ import {
 } from '@/constants/channel'
 import type { PlazaModel, PlazaTimePricingPeriod } from '@/api/modelPlaza'
 import type { UserPricingInterval } from '@/api/channels'
+import { getModelParamDoc } from '@/utils/modelParamDetails'
+import ModelParamDetailsDialog from './ModelParamDetailsDialog.vue'
+
+const detailsModel = ref<string | null>(null)
 
 function reasoningEffortMultipliers(model: PlazaModel): [string, number][] {
   const multipliers = model.pricing?.reasoning_effort_multipliers

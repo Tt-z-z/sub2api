@@ -709,6 +709,22 @@ export default {
       perRequest: '按次计费',
       perImage: '按图片计费'
     },
+    params: {
+      button: '参数',
+      title: '{model} 参数详情',
+      name: '参数',
+      values: '可选值',
+      status: '实测',
+      note: '说明',
+      verifiedAt: '以上结果于 {date} 通过本站接口逐项实测，上游账号或模型更新后可能变化。',
+      statuses: {
+        effective: '生效',
+        partial: '部分生效',
+        ignored: '不生效',
+        rejected: '会报错',
+        unverified: '无法验证'
+      }
+    },
     nav: {
       login: '登录',
       backToDashboard: '回到后台'

@@ -705,6 +705,22 @@ export default {
       perRequest: 'Per request',
       perImage: 'Per image'
     },
+    params: {
+      button: 'Params',
+      title: '{model} parameters',
+      name: 'Parameter',
+      values: 'Values',
+      status: 'Tested',
+      note: 'Details',
+      verifiedAt: 'Each parameter was tested against this site on {date}; results may change if the upstream account or model changes.',
+      statuses: {
+        effective: 'Works',
+        partial: 'Partial',
+        ignored: 'No effect',
+        rejected: 'Errors',
+        unverified: 'Unverifiable'
+      }
+    },
     nav: {
       login: 'Sign In',
       backToDashboard: 'Back to Console'
