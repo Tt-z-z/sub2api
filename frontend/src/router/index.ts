@@ -611,6 +611,12 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
+    path: '/admin/request-approvals',
+    name: 'AdminRequestApprovals',
+    component: () => import('@/features/request-approval/RequestApprovalView.vue'),
+    meta: { requiresAuth: true, requiresAdmin: true, title: '请求审批', titleKey: 'nav.requestApprovals' }
+  },
+  {
     path: '/admin/prompt-audit',
     name: 'AdminPromptAudit',
     component: () => import('@/features/prompt-audit/PromptAuditView.vue'),

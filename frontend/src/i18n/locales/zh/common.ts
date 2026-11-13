@@ -213,6 +213,7 @@ export default {
     securityAudit: '安全审计',
     contentModeration: '内容审计',
     promptAudit: '提示词审计',
+    requestApprovals: '请求审批',
     auditLogs: '操作日志',
   },
 
