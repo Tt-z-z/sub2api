@@ -796,6 +796,7 @@ const adminNavItems = computed((): NavItem[] => {
     { path: '/admin/plugins', label: t('nav.plugins'), icon: PluginIcon, featureFlag: flagPluginManagement },
     { path: '/admin/announcements', label: t('nav.announcements'), icon: BellIcon },
     { path: '/admin/proxies', label: t('nav.proxies'), icon: ServerIcon },
+    { path: '/admin/request-approvals', label: t('nav.requestApprovals'), icon: ShieldIcon },
     {
       path: '/admin/security-audit',
       label: t('nav.securityAudit'),
@@ -805,7 +806,6 @@ const adminNavItems = computed((): NavItem[] => {
       children: [
         { path: '/admin/risk-control', label: t('nav.contentModeration'), icon: ShieldIcon },
         { path: '/admin/prompt-audit', label: t('nav.promptAudit'), icon: ShieldIcon },
-        { path: '/admin/request-approvals', label: t('nav.requestApprovals'), icon: ShieldIcon },
       ],
     },
     { path: '/admin/redeem', label: t('nav.redeemCodes'), icon: TicketIcon, hideInSimpleMode: true },
